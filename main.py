@@ -4,7 +4,6 @@ import argparse
 import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
-config.init()
 
 #-db DATABASE -u USERNAME -p PASSWORD -size 20000
 parser.add_argument("-num", dest = "num", default = 24, type=int)
@@ -28,68 +27,7 @@ den = [0, 0, 0]
 
 for gen in range(args.itr):
     print("Iteration: ", gen+1)
-    n = args.num
-    config.graph = []
-    nodes = int((n-4)/4)
-
-    for i in range(n):
-        config.graph.append([])
-        for _ in range(n):
-            config.graph[i].append(0)
-
-    curr_lvl = [i+1 for i in range(0, nodes)]
-
-    for i in curr_lvl:
-        config.graph[0][i] = random.randint(config.smin, config.smax)
-    
-    for _ in range(3):
-        next_lvl = [curr_lvl[i]+nodes for i in range(len(curr_lvl))]
-
-        for i in range(len(curr_lvl)):
-            config.graph[curr_lvl[i]][next_lvl[i]] = random.randint(config.smin, config.smax)
-        
-        curr_lvl = next_lvl[:]
-    
-    for i in curr_lvl:
-        config.graph[i][n-3] = random.randint(config.smin, config.smax)
-    
-    config.graph[n-3][n-2] = random.randint(config.smin, config.smax)
-    config.graph[n-2][n-1] = random.randint(config.smin, config.smax)
-
-
-    vertices = []
-    for i in range(1, len(config.graph)):
-        flag = 0
-        for j in range(len(config.graph)):
-            if(config.graph[j][i] > 0):
-                flag = 1
-                break
-        
-        if(flag == 0):
-            vertices.append(i)
-    
-    for i in vertices:
-        config.graph[0][i] = 1
-
-
-    for i in range(len(config.graph)):
-        for j in range(len(config.graph)):
-            if(config.graph[i][j] > 0 and i >= j):
-                print("Wrong graph levels", i, j)
-                quit()
-
-    config.topological_levels = [0 for _ in range(len(config.graph))]
-
-    for i in range(1, len(config.graph)):
-        max_lvl = 0
-        for j in range(len(config.graph)):
-            if(config.graph[j][i] > 0 and config.topological_levels[j] > max_lvl):
-                max_lvl = config.topological_levels[j]
-
-        config.topological_levels[i] = max_lvl+1
-
-    for i in range(len(config.graph)):
-        config.size.append(random.randint(config.smin, config.smax))
+    config.init(args.num)
 
     min_span = utils.heft()
     D = args.D * min_span

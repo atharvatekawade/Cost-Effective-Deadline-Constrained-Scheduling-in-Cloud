@@ -16,5 +16,7 @@ Clone the repositary and run the command: python main.py -num -itr -p -D -smin -
 5) smin: Represents the lower bound for task computation requirement and edge data.
 6) smax: Represents the upper bound for task computation requirement and edge data.
 
+Upon running the command and successful execution, we get plots for the cost and makespan of different algorithms. The makespan plot also includes the deadline for reference.
+
 ## Results
 ![Figure_1](https://user-images.githubusercontent.com/64606981/203848744-0569fb98-5718-462e-9841-e7f5cb38696f.png)

@@ -17,3 +17,4 @@ Clone the repositary and run the command: python main.py -num -itr -p -D -smin -
 6) smax: Represents the upper bound for task computation requirement and edge data.
 
 ## Results
+![Figure_1](https://user-images.githubusercontent.com/64606981/203848744-0569fb98-5718-462e-9841-e7f5cb38696f.png)

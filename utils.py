@@ -188,10 +188,11 @@ def simulate_pso(particle, mapping, l = []):
             pr2 = R[particle[j]][0]
             if(config.graph[i][j] > 0):
                 data = config.graph[i][j]/1000
-                if(pr == pr1):
+                if(pr1 == pr2):
                     continue
-                if(pr%3 == 0):
-                    if(pr1%3 == 0):
+                
+                if(pr1 < config.aws_providers):
+                    if(pr2 < config.aws_providers):
                         cost += 0.02*data
                     elif(data <= 100):
                         cost += 0
@@ -203,9 +204,9 @@ def simulate_pso(particle, mapping, l = []):
                         cost += 0.07*data
                     else:
                         cost += 0.05*data
-                
-                elif(pr%3 == 1):
-                    if(pr1%3 == 1):
+                        
+                elif(pr1 < config.aws_providers + config.ma_providers):
+                    if(pr2 < config.aws_providers + config.ma_providers):
                         cost += 0.08*data
                     elif(data <= 100):
                         cost += 0
@@ -217,9 +218,9 @@ def simulate_pso(particle, mapping, l = []):
                         cost += 0.07*data
                     else:
                         cost += 0.06*data
-                
+                        
                 else:
-                    if(pr1%3 == 2):
+                    if(pr2 >= config.aws_providers + config.ma_providers):
                         cost += 0.05*data
                     elif(data <= 1*1000):
                         cost += 0.19*data

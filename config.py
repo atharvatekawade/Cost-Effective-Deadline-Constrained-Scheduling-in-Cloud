@@ -1,8 +1,10 @@
 import random
 import numpy as np
 
-def init(n):
-    global providers
+def init(aws, ma, gcp, n):
+    global aws_providers
+    global ma_providers
+    global gcp_providers
     global center
     global graph
     global prices
@@ -15,7 +17,10 @@ def init(n):
     global boot_time
     global topological_levels
 
-    providers = 6
+    aws_providers = aws
+    ma_providers = ma
+    gcp_providers = gcp
+
     center = []
     graph = []
     prices = []
@@ -33,10 +38,10 @@ def init(n):
     prices = []
     size = []
 
-    for i in range(int(providers/3)):
+    for i in range(gcp_providers):
         fixed_price.append([])
             
-    for i in range(providers):
+    for i in range(aws_providers + ma_providers + gcp_providers):
         vms = random.randint(1, 32)
         center.append([])
         prices.append([])
@@ -47,15 +52,14 @@ def init(n):
                 center[i].append(cap)
                 c = unit_price*center[i][j]
                 c = np.random.normal(loc=c, scale=c/10) 
-                if(i%3 == 0):
+                if(i < aws_providers):
                     c = c*60*(1-random.randint(1,3)/10000)
                     prices[i].append(round(c,2))
                             
                 else:
                     prices[i].append(round(c,2))
-                    if(i%3 == 2):
-                        tp = int((i-2)/3)
-                        fixed_price[tp].append(c*random.randint(11, 14)/10)
+                    if(i >= aws_providers + ma_providers):
+                        fixed_price[i-aws_providers-ma_providers].append(c*random.randint(11, 14)/10)
                 j += 1
 
 

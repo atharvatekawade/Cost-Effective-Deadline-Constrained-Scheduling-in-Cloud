@@ -91,8 +91,6 @@ def pso(D, f = 0):
             min_val = 1
             for j in range(len(X[i][0])):
                 temp = X[i][0][j]
-                # if(X[i][0][j] == float('inf') or V[i][j] == float('inf')):
-                # print(V[i])
                 try:
                     X[i][0][j] = math.floor(X[i][0][j] + V[i][j])
                 except:

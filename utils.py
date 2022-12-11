@@ -107,12 +107,13 @@ def met():
         pr = R[id][0]
         cl = R[id][1]
 
-        if(pr == 0):
+        if(pr < config.aws_providers):
             slots = math.ceil(time/3600)
-        elif(pr == 1):
+        elif(pr < config.aws_providers + config.ma_providers):
             slots = math.ceil(time/60)
         else:
-            slots = max(math.ceil(time/60), 10)
+            cost += config.fixed_price[pr-config.aws_providers-config.ma_providers][cl]
+            slots = max(math.ceil(time/60) - 10, 0)
             
         cost += slots*config.prices[pr][cl]
 
@@ -171,14 +172,13 @@ def simulate_pso(particle, mapping, l = []):
         pr = R[id][0]
         cl = R[id][1]
 
-        if(pr%3 == 0):
+        if(pr < config.aws_providers):
             slots = math.ceil(time/3600)
-        elif(pr%3 == 1):
+        elif(pr < config.aws_providers + config.ma_providers):
             slots = math.ceil(time/60)
         else:
             slots = max(math.ceil(time/60)-10, 0)
-            tp = int((pr-2)/3)
-            cost += config.fixed_price[tp][cl]
+            cost += config.fixed_price[pr-config.aws_providers-config.ma_providers][cl]
                 
         cost += slots*config.prices[pr][cl]
     
@@ -367,20 +367,15 @@ def my_algo(D, mapping, l = []):
             else:
                 s = max(s, config.boot_time)
 
-            # f = s + exec_time + transfer
-            # R[particle[l[i]]][3] = exec_time + transfer + R[particle[l[i]]][2]
-            # M[l[i]] = [particle[l[i]], s, f]
 
             price = 0
-            if(pr1%3 == 0):
+            if(pr1 < config.aws_providers):
                 price = math.ceil((xet[l[i]][pr1][cl1]+config.boot_time)/3600) * config.prices[pr1][cl1]
-            elif(pr1%3 == 1):
+            elif(pr1 < config.aws_providers + config.ma_providers):
                 price = math.ceil((xet[l[i]][pr1][cl1]+config.boot_time)/60) * config.prices[pr1][cl1]
             else:
-                tp = int((pr1-2)/3)
-                price += config.fixed_price[tp][cl1]
-
-                rem = math.ceil((xet[l[i]][pr1][cl1]+config.boot_time-600)/60)
+                price += config.fixed_price[pr1-config.aws_providers-config.ma_providers][cl1]
+                rem = max(math.ceil((xet[l[i]][pr1][cl1]+config.boot_time)/60) - 10, 0)
                 price = rem * config.prices[pr1][cl1]
                     
             metrics.append([s + xet[l[i]][pr1][cl1], price, vm])
@@ -443,36 +438,3 @@ def my_algo(D, mapping, l = []):
         M[l[i]] = [particle[l[i]], s, f]
 
     return particle
-
-# def crossover(p1, p2, o1, o2):
-#     pa = deepcopy(p1)
-#     oa = deepcopy(o1)
-
-#     i = random.randint(0, len(config.graph)-2)
-#     j = random.randint(i+1, len(config.graph)-1)
-#     metrics = []
-#     for k in range(i, j+1):
-#         idx = o2.index(o1[k])
-#         metrics.append(idx)
-    
-#     metrics.sort()
-#     for k in range(i, j+1):
-#         oa[k] = o2[metrics[k-i]]
-#         pa[k] = p2[metrics[k-i]]
-    
-#     return oa, pa
-
-# def tournament(X):
-#     a = random.randint(0, len(X)-1)
-#     b = random.randint(0, len(X)-1)
-
-#     if(X[a][1] <= D and X[b][1] <= D):
-#         if(X[a][2] < X[b][2]):
-#             return a
-#         else:
-#             return b
-#     elif(X[a][1] <= D):
-#         return a
-    
-#     else:
-#         return b

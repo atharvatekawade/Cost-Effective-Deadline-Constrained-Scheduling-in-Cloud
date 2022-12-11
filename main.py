@@ -8,14 +8,15 @@ parser = argparse.ArgumentParser()
 #-db DATABASE -u USERNAME -p PASSWORD -size 20000
 parser.add_argument("-num", dest = "num", default = 24, type=int)
 parser.add_argument("-itr", dest = "itr", default = 5, type=int)
-parser.add_argument("-p", dest = "p", default = 6, type=int)
+parser.add_argument("-aws", dest = "aws", default = 2, type=int)
+parser.add_argument("-gcp", dest = "gcp", default = 2, type=int)
+parser.add_argument("-ma", dest = "ma", default = 2, type=int)
 parser.add_argument("-D", dest = "D", default = 5, type=float)
 parser.add_argument("-smin", dest = "smin", default = 10, type=int)
 parser.add_argument("-smax", dest = "smax", default = 10**3, type=int)
 
 args = parser.parse_args()
 
-config.providers = args.p
 config.smin = args.smin
 config.smax = args.smax
 
@@ -27,7 +28,7 @@ den = [0, 0, 0]
 
 for gen in range(args.itr):
     print("Iteration: ", gen+1)
-    config.init(args.num)
+    config.init(args.aws, args.ma, args.gcp, args.num)
 
     min_span = utils.heft()
     D = args.D * min_span

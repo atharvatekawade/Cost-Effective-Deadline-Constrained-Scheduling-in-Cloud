@@ -8,15 +8,18 @@ Fujian Collaborative Innovation Center for Big Data Applications in Governments,
 ; Bing Lin; Guolong Chen; Yuzhong Chen; Feng Liang: https://ieeexplore.ieee.org/document/8476198
 
 ## Usage
-Clone the repositary and run the command: python main.py -num -itr -p -D -smin -smax, the arguments are explained below:
+Clone the repositary and run the command: python main.py -num -itr -aws -ma -gcp -D -smin -smax, the arguments are explained below:
 1) num: Represents the number of nodes of an Epigenomics task graph.
 2) itr: Represents the number of iterations to run the algorithms, with average results reported at the end.
-3) p: Represents the number of cloud providers, which should be a multiple of 3: p/3 for Microsoft Azure, p/3 for AWS and p/3 for GCP type clouds.
-4) D: Represents the deadline constraint as a factor w.r.t makespan obtained using the HEFT algorithm.
-5) smin: Represents the lower bound for task computation requirement and edge data.
-6) smax: Represents the upper bound for task computation requirement and edge data.
+3) aws: Represents the number of cloud providers following AWS pricing.
+4) ma: Represents the number of cloud providers following Microsoft Azure pricing.
+5) gcp: Represents the number of cloud providers following GCP pricing.
+6) D: Represents the deadline constraint as a factor w.r.t makespan obtained using the HEFT algorithm.
+7) smin: Represents the lower bound for task computation requirement and edge data.
+8) smax: Represents the upper bound for task computation requirement and edge data.
 
 Upon running the command and successful execution, we get plots for the cost and makespan of different algorithms. The makespan plot also includes the deadline for reference. Sample plots are shown below.
 
 ## Results
-![Figure_1](https://user-images.githubusercontent.com/64606981/203848744-0569fb98-5718-462e-9841-e7f5cb38696f.png)
+
+![Figure_1](https://user-images.githubusercontent.com/64606981/206894455-3bf4ba27-d8d1-4e8e-9ecc-12057cda2098.png)

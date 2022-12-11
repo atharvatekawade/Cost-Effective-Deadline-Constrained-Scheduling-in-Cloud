@@ -21,5 +21,4 @@ Clone the repositary and run the command: python main.py -num -itr -aws -ma -gcp
 Upon running the command and successful execution, we get plots for the cost and makespan of different algorithms. The makespan plot also includes the deadline for reference. Sample plots are shown below.
 
 ## Results
-
-![Figure_1](https://user-images.githubusercontent.com/64606981/206894455-3bf4ba27-d8d1-4e8e-9ecc-12057cda2098.png)
+![Figure_1](https://user-images.githubusercontent.com/64606981/206895608-d4b76f19-6ae4-4c7f-b497-d2e6b1459dc2.png)

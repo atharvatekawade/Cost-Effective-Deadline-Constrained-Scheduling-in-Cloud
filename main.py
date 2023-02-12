@@ -26,15 +26,14 @@ fails = [0, 0, 0]
 deviation = [0, 0, 0]
 den = [0, 0, 0]
 
+config.init(args.aws, args.ma, args.gcp, args.num)
+min_span = utils.heft()
+D = args.D * min_span
+print("Deadline:", D)
+spans[3] += D
+
 for gen in range(args.itr):
     print("Iteration: ", gen+1)
-    config.init(args.aws, args.ma, args.gcp, args.num)
-
-    min_span = utils.heft()
-    D = args.D * min_span
-    print("Deadline:", D)
-    spans[3] += D
-
     s, c = pso_method.pso(D)   
     print(f"Graph size: {len(config.graph)} Algo: PSO Span: {s} Cost: {c}") 
     costs[0] += c

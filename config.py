@@ -1,7 +1,8 @@
 import random
 import numpy as np
+import xml.etree.ElementTree as ET
 
-def init(aws, ma, gcp, n):
+def init(aws, ma, gcp, ff):
     global aws_providers
     global ma_providers
     global gcp_providers
@@ -63,54 +64,51 @@ def init(aws, ma, gcp, n):
                 j += 1
 
 
+    dd = {}
+    tree = ET.parse(ff)
+    root = tree.getroot()
+
+    for child in root:
+        if(child.tag[-5:] == "child"):
+            pp = child.getchildren()
+            c = int(child.attrib['ref'][2:])
+            for p in pp:
+                pa = int(p.attrib['ref'][2:])
+
+                if pa not in dd:
+                    dd[pa] = []
+
+                dd[pa].append(c)
+            
+            if c not in dd:
+                dd[c] = []
+
+    # print(dd)
+
     graph = []
-    nodes = int((n-4)/4)
-
-    for i in range(n):
+    for i in range(len(dd) + 2):
         graph.append([])
-        for _ in range(n):
+        for _ in range(len(dd) + 2):
             graph[i].append(0)
-
-    curr_lvl = [i+1 for i in range(0, nodes)]
-
-    for i in curr_lvl:
-        graph[0][i] = random.randint(smin, smax)
     
-    for _ in range(3):
-        next_lvl = [curr_lvl[i]+nodes for i in range(len(curr_lvl))]
-
-        for i in range(len(curr_lvl)):
-            graph[curr_lvl[i]][next_lvl[i]] = random.randint(smin, smax)
-        
-        curr_lvl = next_lvl[:]
+    for p in dd:
+        for c in dd[p]:
+            graph[p+1][c+1] = random.randint(smin, smax)
     
-    for i in curr_lvl:
-        graph[i][n-3] = random.randint(smin, smax)
-    
-    graph[n-3][n-2] = random.randint(smin, smax)
-    graph[n-2][n-1] = random.randint(smin, smax)
+    for p in dd:
+        if(dd[p] == []):
+            graph[p+1][-1] = 1
 
-
-    vertices = []
-    for i in range(1, len(graph)):
+    for i in dd:
         flag = 0
-        for j in range(len(graph)):
-            if(graph[j][i] > 0):
+        for j in dd:
+            if(i in dd[j]):
                 flag = 1
                 break
         
         if(flag == 0):
-            vertices.append(i)
-    
-    for i in vertices:
-        graph[0][i] = 1
+            graph[0][i+1] = 1
 
-
-    for i in range(len(graph)):
-        for j in range(len(graph)):
-            if(graph[i][j] > 0 and i >= j):
-                print("Wrong graph levels", i, j)
-                quit()
 
     topological_levels = [0 for _ in range(len(graph))]
 

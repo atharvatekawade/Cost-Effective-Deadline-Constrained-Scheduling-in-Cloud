@@ -2,7 +2,37 @@ import random
 import math
 import config
 
+def topologicalSortUtil(v,visited,stack):
+ 
+    # Mark the current node as visited.
+    visited[v] = True
+ 
+    # Recur for all the vertices adjacent to this vertex
+    for i in range(len(config.graph[v])):
+        if visited[i] == False and config.graph[v][i] > 0:
+            topologicalSortUtil(i,visited,stack)
+ 
+    # Push current vertex to stack which stores result
+    stack.insert(0,v)
+ 
+# The function to do Topological Sort. It uses recursive
+# topologicalSortUtil()
+def topologicalSort():
+    # Mark all the vertices as not visited
+    visited = [False]*len(config.graph)
+    stack =[]
+ 
+    # Call the recursive helper function to store Topological
+    # Sort starting from all vertices one by one
+    for i in range(len(config.graph)):
+        if visited[i] == False:
+            topologicalSortUtil(i,visited,stack)
+ 
+    # Print contents of stack
+    return stack
+
 def ranks():
+    tt = topologicalSort()[::-1]
     l = [[i, 0] for i in range(len(config.graph))]
     s = 0
     m = 0
@@ -11,7 +41,7 @@ def ranks():
             m = m + 1/config.center[pr][cl]
             s += 1
     
-    for i in range(len(config.graph)-1, -1, -1):
+    for i in tt:
         l[i][1] = l[i][1] + m*config.size[i]/s
         ct = 0
         for j in range(len(config.graph)):
@@ -22,6 +52,12 @@ def ranks():
     
     l.sort(key=lambda x: x[1], reverse=True)
     l = [l[i][0] for i in range(len(config.graph))]
+
+    for i in range(len(config.graph)):
+        for j in range(len(config.graph)):
+            if(config.graph[i][j] > 0 and l.index(i) >= l.index(j)):
+                print("Error:",i, j, l.index(i), l.index(j))
+                quit()
 
     return l
 
@@ -121,7 +157,7 @@ def met():
 
 def simulate_pso(particle, mapping, l = []):
     if(l == []):
-        l = [i for i in range(len(config.graph))]
+        l = ranks()
 
     R = {}
     M = {}
@@ -133,6 +169,8 @@ def simulate_pso(particle, mapping, l = []):
 
         for j in range(len(config.graph)):
             if(config.graph[j][l[i]] > 0):
+                if(j not in M):
+                    print(l[i], j)
                 s = max(s, M[j][2])
                 
             if(config.graph[l[i]][j] > 0):
@@ -278,6 +316,7 @@ def heft():
                 exec_time = config.size[l[i]]/config.center[pr][cl]
                 for j in range(len(config.graph)):
                     if(config.graph[j][l[i]] > 0):
+                        # print(l.index(j), i)
                         pr1 = R[M[j][0]][0]
                         if(pr == pr1):
                             s = max(s, M[j][2] + config.graph[j][l[i]]/config.inter)

@@ -9,7 +9,7 @@ Fujian Collaborative Innovation Center for Big Data Applications in Governments,
 
 ## Usage
 Clone the repositary and run the command: python main.py -num -itr -aws -ma -gcp -D -smin -smax, the arguments are explained below:
-1) num: Represents the number of nodes of an Epigenomics task graph.
+1) ff: Represents the path of file which stores task graph in xml format.
 2) itr: Represents the number of iterations to run the algorithms, with average results reported at the end.
 3) aws: Represents the number of cloud providers following AWS pricing.
 4) ma: Represents the number of cloud providers following Microsoft Azure pricing.

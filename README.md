@@ -14,9 +14,8 @@ Clone the repositary and run the command: python main.py -num -itr -aws -ma -gcp
 3) aws: Represents the number of cloud providers following AWS pricing.
 4) ma: Represents the number of cloud providers following Microsoft Azure pricing.
 5) gcp: Represents the number of cloud providers following GCP pricing.
-6) D: Represents the deadline constraint as a factor w.r.t makespan obtained using the HEFT algorithm.
-7) smin: Represents the lower bound for task computation requirement and edge data.
-8) smax: Represents the upper bound for task computation requirement and edge data.
+6) smin: Represents the lower bound for task computation requirement and edge data.
+7) smax: Represents the upper bound for task computation requirement and edge data.
 
 Upon running the command and successful execution, we get plots for the cost and makespan of different algorithms. The makespan plot also includes the deadline for reference. Sample plots are shown below.
 
